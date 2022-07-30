@@ -5,3 +5,4 @@
 - Run client: `yarn client`.
 - Run server: `yarn server`.
 - Run tests: `yarn test:client`, `yarn test:server`.
+- Build for production: `yarn build:client`, then serve the client/dist.
