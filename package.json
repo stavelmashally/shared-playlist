@@ -1,0 +1,21 @@
+{
+  "name": "shared-playlist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && yarn dev",
+    "server": "cd server && yarn dev",
+    "dev": "concurrently \"yarn server\" \"yarn client\" ",
+    "test:client": "cd client && yarn test",
+    "test:server": "cd server && yarn test",
+    "setup:client": "cd client && yarn",
+    "setup:server": "cd server && yarn",
+    "setup": "yarn && concurrently \"yarn setup:server\" \"yarn setup:client\" "
+  },
+  "dependencies": {
+    "concurrently": "^7.3.0"
+  },
+  "author": "Stav Elmashally",
+  "license": "ISC"
+}

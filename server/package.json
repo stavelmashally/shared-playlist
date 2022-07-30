@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "start": "ts-node src/index.ts",
     "dev": "nodemon --exec ./node_modules/.bin/ts-node -- src/index.ts",
     "test": "jest --no-cache"
   },

@@ -11,10 +11,9 @@ const httpServer = createHttpServer(expressApp);
 const socketServer = createSocketServer(httpServer);
 const playlistRepository = new InMemoryPlaylistRepository();
 
-socketServer.on('connection', clientSocket => {
-  registerPlaylistHandlers(socketServer, clientSocket, playlistRepository);
-});
-
 httpServer.listen(PORT, () => {
+  socketServer.on('connection', clientSocket => {
+    registerPlaylistHandlers(socketServer, clientSocket, playlistRepository);
+  });
   console.log(`Server listening on port ${PORT}`);
 });
