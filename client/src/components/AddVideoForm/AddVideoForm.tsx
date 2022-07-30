@@ -14,7 +14,7 @@ const AddVideoForm = ({ onSubmit }: AddVideoFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (input !== '') {
+    if (input !== '' && validateYouTubeUrl(input)) {
       onSubmit(input);
       setInput('');
     }
@@ -37,5 +37,11 @@ const AddVideoForm = ({ onSubmit }: AddVideoFormProps) => {
     </form>
   );
 };
+
+function validateYouTubeUrl(url: string) {
+  const regExp =
+    /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+  return url.match(regExp);
+}
 
 export default AddVideoForm;
