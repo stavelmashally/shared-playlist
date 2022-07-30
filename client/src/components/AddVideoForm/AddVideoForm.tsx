@@ -26,11 +26,11 @@ const AddVideoForm = ({ onSubmit }: AddVideoFormProps) => {
         <Input
           value={input}
           placeholder='Enter video URL'
-          borderColor='gray.500'
+          borderColor='gray.300'
           onChange={handleInputChange}
           _hover={{ borderColor: 'gray.500' }}
         />
-        <Button type='submit' colorScheme='blue'>
+        <Button type='submit' colorScheme='purple'>
           Add
         </Button>
       </Flex>

@@ -1,10 +1,10 @@
 import {
-  Flex,
   List,
   ListItem,
   Text,
   Heading,
   ListIcon,
+  Grid,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Video } from '../../interfaces/video';
@@ -12,10 +12,16 @@ import { Video } from '../../interfaces/video';
 interface VideoListProps {
   videos: Video[];
   selectedVideoId?: string;
+  onSelect: (videoId: string) => void;
   onDelete: (id: string) => void;
 }
 
-const VideoList = ({ videos, onDelete, selectedVideoId }: VideoListProps) => {
+const VideoList = ({
+  videos,
+  onDelete,
+  onSelect,
+  selectedVideoId,
+}: VideoListProps) => {
   return (
     <List overflow='auto'>
       {videos.map(video => (
@@ -23,6 +29,7 @@ const VideoList = ({ videos, onDelete, selectedVideoId }: VideoListProps) => {
           key={video.id}
           video={video}
           active={video.id === selectedVideoId}
+          onClick={() => onSelect(video.id)}
           onDelete={() => onDelete(video.id)}
         />
       ))}
@@ -33,10 +40,11 @@ const VideoList = ({ videos, onDelete, selectedVideoId }: VideoListProps) => {
 interface VideoItemProps {
   video: Video;
   active?: boolean;
+  onClick: () => void;
   onDelete: () => void;
 }
 
-const VideoItem = ({ video, active, onDelete }: VideoItemProps) => {
+const VideoItem = ({ video, active, onDelete, onClick }: VideoItemProps) => {
   return (
     <ListItem
       px={6}
@@ -46,12 +54,13 @@ const VideoItem = ({ video, active, onDelete }: VideoItemProps) => {
       cursor='pointer'
       bg={active ? 'gray.200' : 'white'}
       _hover={{ bg: 'gray.200' }}
+      onClick={onClick}
     >
-      <Flex justify='space-between' alignItems='center' gap={4}>
+      <Grid templateColumns='8fr 2fr 1fr' alignItems='center' gap={2}>
         <Heading as='h3' size='sm' noOfLines={1}>
           {video.name}
         </Heading>
-        <Text fontSize='sm'>02:50</Text>
+        <Text fontSize='sm'>{video.duration}</Text>
         <ListIcon
           as={DeleteIcon}
           color='gray.500'
@@ -60,7 +69,7 @@ const VideoItem = ({ video, active, onDelete }: VideoItemProps) => {
           }}
           onClick={onDelete}
         />
-      </Flex>
+      </Grid>
     </ListItem>
   );
 };

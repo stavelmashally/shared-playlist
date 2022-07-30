@@ -13,7 +13,7 @@ const MediaPlayer = () => {
       minW={500}
       h={700}
       border='1px'
-      borderColor='gray.500'
+      borderColor='gray.300'
       borderRadius={8}
       justifyContent='center'
       alignItems='center'
@@ -30,10 +30,10 @@ const MediaPlayer = () => {
         />
       ) : (
         <Box p={8}>
-          <Heading as='h3' size='md'>
+          <Heading as='h3' size='md' color='gray.600'>
             No videos yet.
           </Heading>
-          <Text>Add a video to get started.</Text>
+          <Text color='gray.500'>Add a video to get started.</Text>
         </Box>
       )}
     </Flex>

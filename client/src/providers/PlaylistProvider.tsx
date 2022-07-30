@@ -14,6 +14,7 @@ interface PlaylistState {
   selectedVideo?: Video;
   addVideo: (videoUrl: string) => void;
   deleteVideo: (videoId: string) => void;
+  onSelectVideo: (videoId: string) => void;
   onVideoEnded: (videoId: string) => void;
 }
 
@@ -25,6 +26,7 @@ interface PlaylistProviderProps {
 
 export function PlaylistProvider({ children }: PlaylistProviderProps) {
   const [videos, setVideos] = useState<Video[]>([]);
+  const [selectedIdx, setSelectedIdx] = useState(0);
 
   const addVideo = useCallback((videoUrl: string) => {
     socket.emit('addVideo', videoUrl);
@@ -35,7 +37,15 @@ export function PlaylistProvider({ children }: PlaylistProviderProps) {
     socket.emit('deleteVideo', videoId);
   }, []);
 
+  const onSelectVideo = useCallback(
+    (videoId: string) => {
+      setSelectedIdx(videos.findIndex(video => video.id === videoId));
+    },
+    [videos]
+  );
+
   const onVideoEnded = useCallback((videoId: string) => {
+    setSelectedIdx(videos.findIndex(video => video.id === videoId) + 1);
     setVideos(prevVideos => prevVideos.filter(video => video.id !== videoId));
     socket.emit('deleteVideo', videoId);
   }, []);
@@ -46,9 +56,10 @@ export function PlaylistProvider({ children }: PlaylistProviderProps) {
       addVideo,
       deleteVideo,
       onVideoEnded,
-      selectedVideo: videos[0],
+      onSelectVideo,
+      selectedVideo: videos[selectedIdx],
     }),
-    [videos]
+    [videos, selectedIdx]
   );
 
   useEffect(() => {

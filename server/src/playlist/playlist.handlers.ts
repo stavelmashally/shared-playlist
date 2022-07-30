@@ -1,16 +1,7 @@
-import { google } from 'googleapis';
 import { Video } from './interfaces';
 import type { AppSocket, SocketServer } from '../lib/SocketServer';
 import { InMemoryPlaylistRepository } from './playlist.repository';
-import { getYouTubeId } from '../utils';
-
-// store in .env file
-const API_KEY = 'AIzaSyDIr1SMlEzWe_z-sRf6tDMUgWT5IAuctkM';
-
-const youtube = google.youtube({
-  version: 'v3',
-  auth: API_KEY,
-});
+import * as YoutubeService from '../services/YoutubeService';
 
 export default (
   socketServer: SocketServer,
@@ -25,20 +16,19 @@ export default (
   });
 
   clientSocket.on('addVideo', async videoUrl => {
-    const id = getYouTubeId(videoUrl);
-
     try {
-      const { data } = await youtube.search.list({
-        q: id,
-        part: ['snippet'],
-        type: ['video'],
-      });
+      const { id, title, duration } = await YoutubeService.getVideoDetails(
+        videoUrl
+      );
+
+      const exists = await playlistRepository.getById(id);
+      if (exists) return;
 
       const newVideo: Video = {
         id,
-        name: data.items![0]!.snippet!.title ?? videoUrl,
+        name: title,
+        duration,
         url: videoUrl,
-        duration: '02:00',
       };
 
       await playlistRepository.add(newVideo);

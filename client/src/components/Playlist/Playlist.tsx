@@ -4,7 +4,8 @@ import AddSongForm from '../AddVideoForm';
 import VideoList from '../VideoList';
 
 const Playlist = () => {
-  const { videos, addVideo, selectedVideo, deleteVideo } = usePlaylist();
+  const { videos, addVideo, selectedVideo, deleteVideo, onSelectVideo } =
+    usePlaylist();
 
   return (
     <Flex
@@ -14,14 +15,14 @@ const Playlist = () => {
       direction='column'
       gap='8'
       border='1px'
-      borderColor='gray.500'
-      borderRadius='lg'
+      borderColor='gray.300'
+      rounded='xl'
     >
       <AddSongForm onSubmit={addVideo} />
       <VideoList
         videos={videos}
         selectedVideoId={selectedVideo?.id}
-        onSelect={() => {}}
+        onSelect={onSelectVideo}
         onDelete={deleteVideo}
       />
     </Flex>

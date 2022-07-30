@@ -13,6 +13,11 @@ export class InMemoryPlaylistRepository {
     return Promise.resolve(videos);
   }
 
+  getById(id: string): Promise<Video | undefined> {
+    const video = this.playlist.get(id);
+    return Promise.resolve(video);
+  }
+
   deleteById(id: string): Promise<void> {
     const deleted = this.playlist.delete(id);
     if (deleted) {
